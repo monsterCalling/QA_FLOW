@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Stage Context Manifest",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "change_id",
+    "stage",
+    "selected_sources"
+  ],
+  "properties": {
+    "change_id": {
+      "type": "string"
+    },
+    "stage": {
+      "type": "string"
+    },
+    "change_signals": {
+      "type": "object"
+    },
+    "selected_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "selector",
+          "reason",
+          "priority"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "selector": {},
+          "reason": {
+            "type": "string"
+          },
+          "priority": {
+            "enum": [
+              "REQUIRED",
+              "RECOMMENDED",
+              "ON_DEMAND"
+            ]
+          }
+        }
+      }
+    },
+    "expansions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

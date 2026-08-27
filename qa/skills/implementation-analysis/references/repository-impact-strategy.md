@@ -1,0 +1,1 @@
+# Repository Impact Strategy\n\nStart from confirmed entry points. Search symbols/contracts, then trace callers/callees only along relevant behavior. Record file/symbol evidence. Inspect consumers of changed shared DTO/event/table/library. Avoid recursive reading of unrelated directories. Separate confirmed current responsibility from likely future change.\n

@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "change_id": "<change-id>",
+  "change_signals": ["Kafka"],
+  "candidates": [
+    {
+      "tms_key": "QA-T187",
+      "local_id": null,
+      "check_type": "Kafka",
+      "matrix_title": "<title from test model>",
+      "selection_type": "PRIMARY_CHECK_TYPE",
+      "matched_signals": ["Kafka"],
+      "selection_reason": ["Тип проверки = Kafka"],
+      "confidence": "HIGH",
+      "retrieval_status": "PENDING"
+    }
+  ]
+}

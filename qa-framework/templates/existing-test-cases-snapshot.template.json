@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "change_id": "<change-id>",
+  "captured_at": "<timestamp>",
+  "cases": [
+    {
+      "tms_key": "QA-T187",
+      "retrieval_source": "<jira-zephyr-read-integration>",
+      "revision": null,
+      "updated_at": null,
+      "current": {
+        "title": "<current title>",
+        "preconditions": [],
+        "test_data": [],
+        "steps": [],
+        "final_expected_result": null,
+        "priority": null,
+        "links": [],
+        "custom_fields": {}
+      }
+    }
+  ]
+}

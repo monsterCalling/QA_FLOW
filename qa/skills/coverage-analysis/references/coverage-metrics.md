@@ -1,0 +1,1 @@
+# Coverage Metrics Rules\n\nEvery percentage needs an explicit denominator. Keep design coverage separate from executed verification. Report P0/P1 separately. Do not count duplicated tests as additional requirement coverage. BLOCKED/NOT_RUN are not PASS. If regression denominator is not approved, report counts/gaps without a percentage.\n

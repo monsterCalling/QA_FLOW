@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "change_id": "CHANGE-ID",
+  "stage": "test-case-maintainer",
+  "status": "DRAFT",
+  "generated_at": "",
+  "data": {
+    "profile_used": "PROJECT_TEST_CASE_PROFILE",
+    "updates": [
+      {
+        "update_id": "UPD-001",
+        "identity": {
+          "local_id": "MT-010",
+          "tms_key": "QA-T1235",
+          "current_title": "Existing test case"
+        },
+        "action": "UPDATE",
+        "reason": "Requirement changed",
+        "fields_affected": [
+          "steps[3].expected_result"
+        ],
+        "patch_operations": [
+          {
+            "operation": "UPDATE_STEP",
+            "field_path": "steps[3].expected_result",
+            "step_no": 3,
+            "before": "Old expected result",
+            "after": "New expected result",
+            "reason": "Changed behavior",
+            "source_refs": [
+              "REQ-1",
+              "TCND-3"
+            ]
+          }
+        ],
+        "affected_requirements": [
+          "REQ-1"
+        ],
+        "affected_test_conditions": [
+          "TCND-3"
+        ],
+        "atomicity_after_update": "PASS"
+      }
+    ],
+    "new_case_requests": [],
+    "coverage_delta": [],
+    "summary": {}
+  }
+}

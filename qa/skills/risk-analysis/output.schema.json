@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "risk-analysis output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "change_id",
+    "stage",
+    "status",
+    "generated_at",
+    "data"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "change_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stage": {
+      "const": "risk-analysis"
+    },
+    "status": {
+      "enum": [
+        "DRAFT",
+        "WAITING_INPUT",
+        "READY_FOR_HUMAN_REVIEW",
+        "COMPLETED",
+        "COMPLETED_WITH_FINDINGS",
+        "NEEDS_CORRECTION",
+        "BLOCKED"
+      ]
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "context_manifest": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "clarifications_used": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "risks",
+        "finding_candidates",
+        "summary",
+        "flow_recommendation"
+      ],
+      "properties": {
+        "risks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/risk"
+          }
+        },
+        "finding_candidates": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "summary": {
+          "$ref": "#/$defs/summary"
+        },
+        "flow_recommendation": {
+          "enum": [
+            "HUMAN_REVIEW",
+            "CONTINUE"
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "priority": {
+      "enum": [
+        "CRITICAL",
+        "HIGH",
+        "MEDIUM",
+        "LOW",
+        "TRIVIAL"
+      ]
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "risk_id",
+        "failure_mode",
+        "consequence",
+        "priority",
+        "flow_action",
+        "test_obligation",
+        "evidence"
+      ],
+      "properties": {
+        "risk_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "failure_mode": {
+          "type": "string",
+          "minLength": 1
+        },
+        "consequence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "priority": {
+          "$ref": "#/$defs/priority"
+        },
+        "flow_action": {
+          "enum": [
+            "HUMAN_REVIEW",
+            "CONTINUE"
+          ]
+        },
+        "test_obligation": {
+          "enum": [
+            "MANDATORY",
+            "RECOMMENDED",
+            "OPTIONAL",
+            "NONE"
+          ]
+        },
+        "evidence": {
+          "type": [
+            "string",
+            "array",
+            "object"
+          ]
+        },
+        "category": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "impact": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "probability": {
+          "type": [
+            "string",
+            "number",
+            "null"
+          ]
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "counts",
+        "highest_priority",
+        "human_review_required"
+      ],
+      "properties": {
+        "counts": {
+          "type": "object",
+          "required": [
+            "CRITICAL",
+            "HIGH",
+            "MEDIUM",
+            "LOW",
+            "TRIVIAL"
+          ],
+          "properties": {
+            "CRITICAL": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "HIGH": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "MEDIUM": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "LOW": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "TRIVIAL": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "highest_priority": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/priority"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "human_review_required": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

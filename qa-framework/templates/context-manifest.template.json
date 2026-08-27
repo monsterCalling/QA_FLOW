@@ -1,0 +1,17 @@
+{
+  "change_id": "CHANGE-ID",
+  "stage": "STAGE",
+  "change_signals": {},
+  "selected_sources": [
+    {
+      "path": "...",
+      "selector": {
+        "type": "SECTION",
+        "value": "..."
+      },
+      "reason": "...",
+      "priority": "REQUIRED"
+    }
+  ],
+  "expansions": []
+}

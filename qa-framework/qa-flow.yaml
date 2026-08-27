@@ -1,0 +1,329 @@
+name: qa-flow-for-sdd
+version: '1.0'
+controller_skill: .qa/skills/qa-flow/SKILL.md
+entry:
+  trigger: manual natural-language request in GigaCode
+  default_mode: qa-design
+  required:
+  - proposal.md
+  - preview.md
+  - spec.md OR specs/**
+  optional:
+  - DB schema/DDL
+  - OpenAPI/Swagger
+  - Kafka contracts
+  - diagrams
+  - mappings
+  - examples
+  - design.md
+  - tasks.md
+modes:
+  qa-design:
+  - context-discovery
+  - spec-review
+  - risk-analysis
+  - test-model-impact-analysis
+  - test-design
+  - checklist-writer
+  - test-case-changes
+  - test-model-maintainer
+  - pre-export-validation
+  - tms-export
+  full:
+  - context-discovery
+  - spec-review
+  - risk-analysis
+  - test-model-impact-analysis
+  - test-design
+  - checklist-writer
+  - test-case-changes
+  - test-model-maintainer
+  - pre-export-validation
+  - tms-export
+  - implementation-analysis
+  - automation-analysis
+  - autotest-writer
+  - autotest-review
+  - implementation-ready
+  - spec-vs-code
+  - manual-test-execution
+  - autotest-execution
+  - test-failure-analysis
+  - spec-vs-tests
+  - coverage-analysis
+  - final-conformance-check
+  - qa-verdict
+stages:
+- id: context-discovery
+  skill: context-discovery
+  human_gate: null
+- id: spec-review
+  skill: spec-review
+  critic: spec-review-critic
+  interactive: true
+  on_analyst_rework: rerun-context-discovery-and-spec-review
+  priority_gate:
+    item_type: finding
+    hard_block:
+    - CRITICAL
+    human_review:
+    - HIGH
+    - MEDIUM
+    aggregate_escalation:
+      low_total_threshold: 5
+      low_same_area_threshold: 3
+    non_blocking:
+    - LOW
+    - TRIVIAL
+    confirmation_gate:
+      required: true
+      when: no CRITICAL/HIGH/MEDIUM and no aggregate escalation
+      actions:
+      - APPROVE_AND_CONTINUE
+      - RETURN_TO_ANALYST
+  clarification_rounds:
+    ask_during_analysis: true
+    max_questions_per_round: 4
+    options_per_question:
+      min: 2
+      max: 4
+    multi_select_when_multiple_can_apply: true
+    persist_answers_to_change_context: true
+- id: risk-analysis
+  skill: risk-analysis
+  interactive: true
+  priority_gate:
+    item_type: risk
+    hard_block: []
+    human_review:
+    - CRITICAL
+    - HIGH
+    - MEDIUM
+    auto_continue:
+    - LOW
+    - TRIVIAL
+    risk_is_not_requirement_defect: true
+  clarification_rounds:
+    ask_during_analysis: true
+    max_questions_per_round: 4
+    options_per_question:
+      min: 2
+      max: 4
+    multi_select_when_multiple_can_apply: true
+    persist_answers_to_change_context: true
+    recalculate_after_answer:
+    - priority
+    - test_obligation
+    - flow_recommendation
+    - finding_candidates
+- id: test-model-impact-analysis
+  skill: test-model-impact-analysis
+  interactive: true
+  human_gate: BEFORE_TEST_DESIGN
+  candidate_discovery:
+    primary_field: "Тип проверки"
+    secondary_related_search: true
+    modifies_test_model: false
+  existing_test_case_read:
+    required_for_existing_classification: true
+    contract: qa-framework/shared/TMS_READ_CONTRACT.md
+    exact_key_only: true
+  artifacts:
+  - test-case-candidates.md
+  - test-case-candidates.json
+  - existing-test-cases-snapshot.json
+  - test-model-impact.md
+  - test-model-impact.json
+  clarification_rounds:
+    ask_during_analysis: true
+    max_questions_per_round: 4
+    options_per_question:
+      min: 2
+      max: 4
+    multi_select_when_multiple_can_apply: true
+    persist_answers_to_change_context: true
+    recalculate_after_answer:
+    - candidate_scope
+    - impact_classification
+    - duplication_risk
+    - regression_relevance
+- id: test-design
+  skill: test-design
+  interactive: true
+  human_gate: TEST_DESIGN
+  clarification_rounds:
+    ask_during_analysis: true
+    max_questions_per_round: 4
+    options_per_question:
+      min: 2
+      max: 4
+    multi_select_when_multiple_can_apply: true
+    persist_answers_to_change_context: true
+    recalculate_after_answer:
+    - test_conditions
+    - techniques
+    - coverage_links
+    - risk_coverage
+- id: checklist-writer
+  skill: checklist-writer
+  human_gate: null
+  requires_approved:
+  - test-design
+  artifacts:
+  - checklist.md
+  - checklist.json
+  notes: Human-readable team checklist; technical traceability stays in checklist.json;
+    no detailed steps.
+- id: test-case-changes
+  skills:
+  - test-case-writer
+  - test-case-maintainer
+  human_gate: CHECKLIST_AND_TEST_CASE_CHANGES
+  approval_scope:
+  - checklist.md
+  - checklist.json
+  - new-test-cases.md
+  - new-test-cases.json
+  - test-case-updates.md
+  - test-case-updates.json
+  requires_project_context:
+  - qa-context/qa/test-cases/test-case-profile.yaml
+  - qa-context/qa/test-cases/test-case-writing-rules.md
+  profile_must_be_configured: true
+  atomicity_required: true
+  artifacts:
+  - new-test-cases.md
+  - new-test-cases.json
+  - test-case-updates.md
+  - test-case-updates.json
+  canonical_sources:
+    create: new-test-cases.json
+    update: test-case-updates.json
+  separation_required: true
+  notes: Writer creates only new cases; maintainer creates only exact existing-case
+    patch plan.
+- id: test-model-maintainer
+  skill: test-model-maintainer
+  human_gate: ACTUAL_TEST_MODEL_PATCH
+- id: pre-export-validation
+  skill: pre-export-validation
+  human_gate: null
+  requires_approved:
+  - test-case-changes
+  - test-model-maintainer
+  contracts:
+  - qa-framework/shared/PRE_EXPORT_CONTRACT.md
+  - qa-framework/shared/TEST_CASE_CONTRACT.md
+  on_fail: BLOCKED
+  on_pass: tms-export
+  effective_test_set: existing + approved updates + approved new test cases
+- id: tms-export
+  skill: tms-export
+  requires_stage_passed: pre-export-validation
+  executor: external_ide_plugin
+  performs_external_push: false
+  outputs:
+  - export-plan.json
+  - tms-export.md
+  - tms-mapping.json (when available)
+  success_status: COMPLETED
+  handoff_status: READY_FOR_EXTERNAL_EXPORT
+- id: implementation-analysis
+  skill: implementation-analysis
+  interactive: true
+  human_gate: ALL_IMPACT
+  mode: full
+- id: automation-analysis
+  skill: automation-analysis
+  interactive: true
+  human_gate: AUTOMATION_PLAN
+  mode: full
+- id: autotest-writer
+  skill: autotest-writer
+  mode: full
+- id: autotest-review
+  skill: autotest-review
+  human_gate: AUTOTEST_CODE
+  mode: full
+- id: implementation-ready
+  type: external_milestone
+  mode: full
+- id: spec-vs-code
+  skill: spec-vs-code
+  interactive: true
+  human_gate: ALL_MISMATCHES
+  mode: full
+  clarification_rounds:
+    ask_during_analysis: true
+    max_questions_per_round: 4
+    options_per_question:
+      min: 2
+      max: 4
+    multi_select_when_multiple_can_apply: true
+    persist_answers_to_change_context: true
+    recalculate_after_answer:
+    - mismatch_type
+    - confidence
+    - human_validation_scope
+- id: manual-test-execution
+  type: human_execution
+  result_schema: qa-framework/schemas/manual-test-results.schema.json
+  mode: full
+- id: autotest-execution
+  type: external_or_runtime_test_execution
+  mode: full
+- id: test-failure-analysis
+  skill: test-failure-analysis
+  interactive: true
+  human_gate: ALL_CLASSIFICATIONS
+  mode: full
+  clarification_rounds:
+    ask_during_analysis: true
+    max_questions_per_round: 4
+    options_per_question:
+      min: 2
+      max: 4
+    multi_select_when_multiple_can_apply: true
+    persist_answers_to_change_context: true
+    recalculate_after_answer:
+    - classification
+    - confidence
+    - defect_candidates
+- id: spec-vs-tests
+  skill: spec-vs-tests
+  interactive: true
+  mode: full
+- id: coverage-analysis
+  skill: coverage-analysis
+  interactive: true
+  human_gate: SPEC_VS_TESTS_AND_COVERAGE
+  mode: full
+- id: final-conformance-check
+  skill: final-conformance-check
+  interactive: true
+  human_gate: ONLY_IF_MEANINGFUL_DELTA
+  mode: full
+- id: qa-verdict
+  skill: qa-verdict
+  interactive: true
+  verdicts:
+  - PASS
+  - PASS_WITH_RISKS
+  - FAILED
+  - BLOCKED
+  mode: full
+helpers:
+- sql-analysis
+- kafka-analysis
+- api-analysis
+- log-analysis
+- test-data-analysis
+runtime:
+  state: .agent-runs/<change-id>/state.json
+  progress: .agent-runs/<change-id>/progress.md
+  resume: true
+  directories:
+  - context
+  - clarifications
+  - artifacts
+priority_policy: qa-context/qa/priority-policy.md

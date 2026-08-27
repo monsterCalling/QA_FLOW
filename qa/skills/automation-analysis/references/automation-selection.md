@@ -1,0 +1,1 @@
+# Automation Selection Heuristics\n\nPrefer automation for repeatable critical regression, deterministic API/integration/state/calculation checks. Prefer lower layer that proves the behavior. Defer when setup is uncontrollable, result is subjective, or maintenance cost dominates value. Evaluate observability, data isolation, dependency control and runtime.\n

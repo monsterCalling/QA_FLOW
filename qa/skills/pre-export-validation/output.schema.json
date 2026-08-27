@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "pre-export-validation output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "change_id",
+    "stage",
+    "status",
+    "generated_at",
+    "data"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "change_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stage": {
+      "const": "pre-export-validation"
+    },
+    "status": {
+      "enum": [
+        "PASSED",
+        "BLOCKED",
+        "WAITING_INPUT"
+      ]
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "integrity",
+        "coverage",
+        "tms_compatibility",
+        "action_candidates",
+        "blocking_issues"
+      ],
+      "properties": {
+        "integrity": {
+          "type": "object"
+        },
+        "coverage": {
+          "type": "object"
+        },
+        "tms_compatibility": {
+          "type": "object"
+        },
+        "action_candidates": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "blocking_issues": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

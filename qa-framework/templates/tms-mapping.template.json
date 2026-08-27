@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "tests": {
+    "MT-001": {
+      "tms_key": null,
+      "last_exported_revision": null,
+      "content_hash": null,
+      "status": "PENDING_EXPORT"
+    }
+  }
+}

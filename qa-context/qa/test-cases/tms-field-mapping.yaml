@@ -1,0 +1,67 @@
+version: '1.0'
+project_configured: false
+source:
+- new-test-cases.json
+- test-case-updates.json
+target: IDE_PLUGIN_TMS
+mapping:
+  local_id:
+    target_field: null
+    export: false
+    purpose: correlation_only
+  tms_key:
+    target_field: null
+    export: false
+    purpose: update_existing_identity
+  title:
+    target_field: null
+    required_for_export: true
+  objective:
+    target_field: null
+    required_for_export: false
+  priority:
+    target_field: null
+    required_for_export: true
+  preconditions:
+    target_field: null
+    required_for_export: true
+  test_data:
+    target_field: null
+    required_for_export: false
+  steps.action:
+    target_field: null
+    required_for_export: true
+  steps.test_data:
+    target_field: null
+    required_for_export: false
+  steps.expected_result:
+    target_field: null
+    required_for_export: true
+  final_expected_result:
+    target_field: null
+    required_for_export: false
+  requirements:
+    target_field: null
+    required_for_export: false
+  tags:
+    target_field: null
+    required_for_export: false
+export_policy:
+  plugin_is_external_executor: true
+  llm_must_not_rewrite_approved_test_content: true
+  create_only_for_action: CREATE
+  update_only_for_action: UPDATE
+  skip_for_action: SKIP
+  obsolete_action: PROPOSE_OBSOLETE
+  destructive_delete_allowed: false
+  require_explicit_human_action_for_obsolete: true
+  round_trip_validation_recommended: true
+  content_hash:
+    supported: optional
+    calculated_by: IDE_PLUGIN_OR_EXTERNAL_EXPORTER
+    canonical_input: canonical_test_case_without_runtime_fields
+update_patch_policy:
+  require_before_guard: true
+  conflict_on_before_mismatch: true
+  allow_partial_field_update: true
+  allow_step_level_update: true

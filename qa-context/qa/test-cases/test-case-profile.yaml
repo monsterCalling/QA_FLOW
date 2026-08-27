@@ -1,0 +1,149 @@
+version: '1.0'
+project_configured: false
+fallback_allowed: false
+profile_name: PROJECT_TEST_CASE_PROFILE
+id_policy:
+  new_case_format: MT-{NNN}
+  preserve_existing_tms_key: true
+  unknown_tms_key_value: null
+  never_invent_tms_key: true
+test_case:
+  atomicity:
+    rule: one_test_case_equals_one_primary_test_objective_and_one_business_scenario
+    split_when:
+    - different_business_outcome
+    - different_state_transition
+    - different_error_branch
+    - retry_is_independent_behavior
+    - duplicate_or_idempotency_is_independent_behavior
+    - concurrency_is_independent_behavior
+    - authorization_condition_changes_expected_behavior
+    - materially_different_precondition
+    - materially_different_test_data_changes_scenario
+    do_not_split_only_because_of:
+    - api_verification
+    - database_verification
+    - kafka_verification
+    - log_verification
+    - multiple_assertions_proving_same_business_outcome
+    max_recommended_steps: 8
+  fields:
+    title:
+      required: true
+      type: string
+    objective:
+      required: true
+      type: string
+    priority:
+      required: true
+      type: enum
+      allowed:
+      - CRITICAL
+      - HIGH
+      - MEDIUM
+      - LOW
+    preconditions:
+      required: true
+      type: list
+      min_items: 1
+    test_data:
+      required: conditional
+      condition: scenario_requires_specific_data
+      type: list
+    steps:
+      required: true
+      type: list
+      min_items: 1
+    final_expected_result:
+      required: conditional
+      condition: expected_result_model in [final, per_step_and_final]
+      type: string_or_list
+    postconditions:
+      required: false
+      type: list
+    requirements:
+      required: true
+      type: list
+      min_items: 1
+    risks:
+      required: false
+      type: list
+    test_conditions:
+      required: true
+      type: list
+      min_items: 1
+    tags:
+      required: false
+      type: list
+  custom_fields:
+    enabled: true
+    fields: {}
+    note: Add project-specific fields here, e.g. component, labels, owner, folder.
+      Define required/type explicitly.
+step:
+  expected_result_model: per_step
+  fields:
+    action:
+      required: true
+    test_data:
+      required: false
+    expected_result:
+      required: true
+  granularity: business_action
+  forbidden:
+  - multiple_alternative_paths_in_one_step
+  - vague_action_without_observable_intent
+  - hidden_preconditions_inside_action
+  - unrelated_business_actions_in_one_step
+test_data:
+  placement: separate_section_and_step_when_specific
+  use_concrete_values_when_confirmed: true
+  placeholders_allowed: true
+  placeholder_format: <PLACEHOLDER>
+  never_invent:
+  - client_id
+  - account_number
+  - product_code
+  - external_system_id
+  - production_personal_data
+  - secrets
+verification:
+  business_result:
+    required: true
+  api:
+    required_when: api_participates_in_scenario
+  database:
+    required_when: persistent_state_or_data_change_is_part_of_expected_outcome
+  kafka:
+    required_when: event_is_consumed_or_produced
+  logs:
+    required_when: observability_is_material_for_async_or_error_flow
+  rule: technical_verifications_are_assertions_of_the_same_case_when_they_prove_one_business_outcome
+rendering:
+  language: ru
+  style: concise_professional
+  include_traceability: true
+  show_local_id: true
+  show_tms_key_when_known: true
+  markdown_field_order:
+  - local_id
+  - tms_key
+  - title
+  - objective
+  - priority
+  - preconditions
+  - test_data
+  - steps
+  - final_expected_result
+  - postconditions
+  - traceability
+  - custom_fields
+canonical_sources:
+  new_cases:
+    json: new-test-cases.json
+    markdown: new-test-cases.md
+    role: create_source_of_truth
+  existing_updates:
+    json: test-case-updates.json
+    markdown: test-case-updates.md
+    role: update_patch_source_of_truth

@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "checklist-writer output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "change_id",
+    "stage",
+    "status",
+    "generated_at",
+    "data"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "change_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stage": {
+      "const": "checklist-writer"
+    },
+    "status": {
+      "enum": [
+        "DRAFT",
+        "WAITING_INPUT",
+        "READY_FOR_HUMAN_REVIEW",
+        "NEEDS_CORRECTION",
+        "BLOCKED"
+      ]
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "context_manifest": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "clarifications_used": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "summary",
+        "items",
+        "coverage_mapping",
+        "omitted_conditions"
+      ],
+      "properties": {
+        "summary": {
+          "type": "object"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/item"
+          }
+        },
+        "coverage_mapping": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "omitted_conditions": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "section",
+        "text",
+        "source_requirements",
+        "source_test_conditions",
+        "coverage_kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^CHK-[A-Za-z0-9._-]+$"
+        },
+        "section": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_requirements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_risks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_test_conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "coverage_kind": {
+          "enum": [
+            "EXISTING",
+            "UPDATED",
+            "NEW",
+            "REGRESSION"
+          ]
+        },
+        "technical_metadata": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

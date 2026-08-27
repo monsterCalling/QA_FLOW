@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "change_id": "CHANGE-ID",
+  "mode": "qa-design",
+  "status": "IN_PROGRESS",
+  "current_stage": "context-discovery",
+  "updated_at": "ISO-8601",
+  "inputs": {
+    "proposal": "openspec/changes/CHANGE-ID/proposal.md",
+    "preview": "openspec/changes/CHANGE-ID/preview.md",
+    "spec": "openspec/changes/CHANGE-ID/spec.md OR specs/**",
+    "optional": []
+  },
+  "stages": {
+    "context-discovery": {
+      "status": "PENDING",
+      "attempt": 0
+    },
+    "spec-review": {
+      "status": "PENDING",
+      "attempt": 0,
+      "gate": {
+        "type": null,
+        "status": null,
+        "allowed_actions": []
+      },
+      "priority_summary": null
+    },
+    "risk-analysis": {
+      "status": "PENDING",
+      "attempt": 0,
+      "priority_summary": null,
+      "gate": null
+    },
+    "test-model-impact-analysis": {
+      "status": "PENDING",
+      "attempt": 0
+    },
+    "test-design": {
+      "status": "PENDING",
+      "attempt": 0
+    },
+    "checklist-writer": {
+      "status": "PENDING",
+      "attempt": 0
+    },
+    "test-model-maintainer": {
+      "status": "PENDING",
+      "attempt": 0
+    },
+    "pre-export-validation": {
+      "status": "PENDING",
+      "attempt": 0
+    },
+    "tms-export": {
+      "status": "PENDING",
+      "attempt": 0
+    },
+    "test-case-changes": {
+      "status": "PENDING",
+      "attempt": 0,
+      "artifacts": [
+        "new-test-cases.md",
+        "new-test-cases.json",
+        "test-case-updates.md",
+        "test-case-updates.json"
+      ]
+    }
+  },
+  "waiting": null,
+  "latest_decision": null,
+  "warnings": [],
+  "priority_policy": "qa-context/qa/priority-policy.md"
+}

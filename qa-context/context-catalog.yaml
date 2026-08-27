@@ -1,0 +1,263 @@
+version: 1
+policy:
+  default_read: SELECTIVE
+  full_file_allowed_for:
+  - proposal.md
+  - preview.md
+  - small current spec files
+  - small approved upstream artifacts
+  forbid_blanket_recursive_scan: true
+  expansion_requires_reason: true
+qa_sources:
+- id: qa-strategy
+  file: qa-context/qa/qa-strategy.md
+  tags:
+  - qa
+  - strategy
+  - traceability
+  - human-gate
+  selection: SECTION
+- id: priority-policy
+  file: qa-context/qa/priority-policy.md
+  tags:
+  - priority
+  - finding
+  - risk
+  - gate
+  - blocking
+  - human-review
+  - trivial
+  - low
+  selection: SECTION
+- id: testing-state
+  file: qa-context/qa/testing-rules.md
+  section: 2. Проверка состояний
+  tags:
+  - state
+  - status
+  - transition
+  - lifecycle
+  selection: SECTION
+- id: testing-api
+  file: qa-context/qa/testing-rules.md
+  section: 3. REST API
+  tags:
+  - api
+  - rest
+  - validation
+  - contract
+  - security
+  selection: SECTION
+- id: testing-kafka
+  file: qa-context/qa/testing-rules.md
+  section: 4. Kafka
+  tags:
+  - kafka
+  - event
+  - async
+  - retry
+  - idempotency
+  - ordering
+  selection: SECTION
+- id: testing-db
+  file: qa-context/qa/testing-rules.md
+  section: 5. Database
+  tags:
+  - db
+  - database
+  - sql
+  - data
+  - history
+  - transaction
+  selection: SECTION
+- id: testing-integrations
+  file: qa-context/qa/testing-rules.md
+  section: 6. Интеграции
+  tags:
+  - integration
+  - timeout
+  - retry
+  - external
+  selection: SECTION
+- id: testing-logs
+  file: qa-context/qa/testing-rules.md
+  section: 7. Логи
+  tags:
+  - logs
+  - observability
+  - trace
+  selection: SECTION
+- id: risk-model
+  file: qa-context/qa/risk-model.md
+  tags:
+  - risk
+  - severity
+  - impact
+  - probability
+  selection: SECTION
+- id: known-risks
+  file: qa-context/qa/known-quality-risks.md
+  tags:
+  - risk
+  - idempotency
+  - async
+  - state
+  - security
+  - regression
+  - observability
+  selection: SECTION
+- id: regression-rules
+  file: qa-context/qa/regression-rules.md
+  tags:
+  - regression
+  - api
+  - kafka
+  - database
+  - state
+  - shared
+  - authorization
+  selection: SECTION
+- id: test-design-techniques
+  file: qa-context/qa/test-design-techniques.md
+  tags:
+  - test-design
+  - boundary
+  - equivalence
+  - decision-table
+  - state-transition
+  - pairwise
+  - negative
+  - idempotency
+  - concurrency
+  - retry
+  selection: SECTION
+- id: automation-rules
+  file: qa-context/qa/automation-rules.md
+  tags:
+  - automation
+  - autotest
+  - api
+  - kafka
+  - db
+  selection: SECTION
+- id: test-data
+  file: qa-context/qa/test-data.md
+  tags:
+  - test-data
+  - fixture
+  - cleanup
+  - boundary
+  - time
+  selection: SECTION
+- id: environment
+  file: qa-context/qa/environment.md
+  tags:
+  - environment
+  - stubs
+  - configuration
+  - observability
+  selection: SECTION
+- id: test-case-profile
+  file: qa-context/qa/test-cases/test-case-profile.yaml
+  tags:
+  - test-case
+  - manual-test
+  - profile
+  - required-fields
+  - atomicity
+  - expected-result
+  selection: FULL_FILE
+  project_fill_required: true
+- id: test-case-writing-rules
+  file: qa-context/qa/test-cases/test-case-writing-rules.md
+  tags:
+  - test-case
+  - manual-test
+  - atomicity
+  - steps
+  - test-data
+  - expected-result
+  selection: SECTION
+- id: test-case-examples
+  file: qa-context/qa/test-cases/test-case-examples.md
+  tags:
+  - test-case
+  - manual-test
+  - examples
+  - style
+  selection: FULL_FILE
+  project_fill_required: true
+- id: tms-field-mapping
+  file: qa-context/qa/test-cases/tms-field-mapping.yaml
+  tags:
+  - tms
+  - zephyr
+  - plugin
+  - field-mapping
+  - export
+  selection: FULL_FILE
+  project_fill_required: true
+project_sources:
+- id: project-architecture
+  file: qa-context/project/architecture.md
+  tags:
+  - architecture
+  - service
+  - component
+  - data-flow
+  selection: SECTION
+  project_fill_required: true
+- id: project-business-rules
+  file: qa-context/project/business-rules.md
+  tags:
+  - business-rule
+  - state
+  - calculation
+  - invariant
+  selection: SECTION
+  project_fill_required: true
+- id: project-integrations
+  file: qa-context/project/integrations.md
+  tags:
+  - integration
+  - external
+  - dependency
+  selection: SECTION
+  project_fill_required: true
+- id: project-api
+  file: qa-context/project/api.md
+  tags:
+  - api
+  - rest
+  - endpoint
+  - contract
+  selection: SECTION
+  project_fill_required: true
+- id: project-kafka
+  file: qa-context/project/kafka.md
+  tags:
+  - kafka
+  - topic
+  - event
+  - producer
+  - consumer
+  selection: SECTION
+  project_fill_required: true
+- id: project-data-model
+  file: qa-context/project/data-model.md
+  tags:
+  - db
+  - database
+  - table
+  - schema
+  - history
+  selection: SECTION
+  project_fill_required: true
+- id: project-glossary
+  file: qa-context/project/glossary.md
+  tags:
+  - term
+  - glossary
+  - abbreviation
+  selection: ANCHOR
+  project_fill_required: true

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "qa-flow controller status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "change_id",
+    "mode",
+    "status",
+    "current_stage",
+    "next_action"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "change_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "enum": [
+        "qa-design",
+        "full"
+      ]
+    },
+    "status": {
+      "enum": [
+        "IN_PROGRESS",
+        "WAITING_INPUT",
+        "WAITING_HUMAN",
+        "WAITING_EXTERNAL",
+        "COMPLETED",
+        "BLOCKED"
+      ]
+    },
+    "current_stage": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "next_action": {
+      "type": "string"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

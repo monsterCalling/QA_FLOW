@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "change_id": "CHANGE-ID",
+  "exported_at": "ISO-8601",
+  "results": [
+    {
+      "local_id": "MT-001",
+      "action": "CREATE",
+      "status": "SUCCESS",
+      "tms_key": "QA-T1234",
+      "content_hash": null,
+      "error": null
+    }
+  ]
+}

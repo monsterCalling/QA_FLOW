@@ -1,0 +1,12 @@
+{
+  "change_id": "CHANGE-ID",
+  "sources": [
+    "new-test-cases.json",
+    "test-case-updates.json"
+  ],
+  "create": [],
+  "update": [],
+  "skip": [],
+  "propose_obsolete": [],
+  "blocked": []
+}

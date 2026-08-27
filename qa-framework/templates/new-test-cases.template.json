@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "change_id": "CHANGE-ID",
+  "stage": "test-case-writer",
+  "status": "DRAFT",
+  "generated_at": "",
+  "data": {
+    "profile_used": "PROJECT_TEST_CASE_PROFILE",
+    "new_test_cases": [],
+    "coverage_mapping": [],
+    "atomicity_report": []
+  }
+}

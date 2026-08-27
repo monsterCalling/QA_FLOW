@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "autotest-review output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "change_id",
+    "stage",
+    "status",
+    "generated_at",
+    "data"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "change_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stage": {
+      "const": "autotest-review"
+    },
+    "status": {
+      "enum": [
+        "DRAFT",
+        "WAITING_INPUT",
+        "READY_FOR_HUMAN_REVIEW",
+        "NEEDS_CORRECTION",
+        "BLOCKED"
+      ]
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "context_manifest": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "clarifications_used": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "data": {
+      "type": "object"
+    }
+  }
+}
